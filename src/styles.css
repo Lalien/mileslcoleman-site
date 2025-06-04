@@ -64,7 +64,7 @@
   height: 100%;
   width: 0;
   border-radius: 0.25rem;
-  background-color: limegreen;
+  background-color: rgb(132 204 22 );
   transition: width 0.6s ease;
   z-index: 0;
 }
