@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.menu-btn {
+	position: relative;
+	width: 40px;
+	height: 30px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	span {
+		position: absolute;
+		width: 100%;
+		height: 4px;
+		background: black;
+		border-radius: 2px;
+		transition: all 0.3s ease;
+		&:nth-child(1) {
+			top: 0;
+		}
+		&:nth-child(2) {
+			top: 13px;
+		}
+		&:nth-child(3) {
+			top: 26px;
+		}
+	}
+}
+
+#hamburger-menu.active {
+    .menu-btn {
+        span {
+            &:nth-child(1) {
+                transform: rotate(45deg);
+                top: 13px;
+            }
+            &:nth-child(2) {
+                opacity: 0;
+            }
+            &:nth-child(3) {
+                transform: rotate(-45deg);
+                top: 13px;
+            }
+        }
+    }
+}
+#hamburger-menu.menu-btn {
+  position: absolute;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: white; /* default background */
+  transition: background-color 0.6s ease;
+}
+
+/* Create the green fill overlay with ::before */
+#hamburger-menu::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 0.25rem;
+  background-color: limegreen;
+  transition: width 0.6s ease;
+  z-index: 0;
+}
+
+/* When active, expand fill left to right */
+#hamburger-menu.active::before {
+  width: 100%;
+}

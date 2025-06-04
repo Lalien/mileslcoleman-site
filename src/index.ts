@@ -1,5 +1,4 @@
-const Parallax = require('parallax-js')
 import './styles.css';
-
-var scene = document.getElementById('main-hero');
+const Parallax       = require('parallax-js')
+var scene            = document.getElementById('hero-parallax');
 var parallaxInstance = new Parallax(scene);

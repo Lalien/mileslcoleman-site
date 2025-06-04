@@ -1,24 +1,45 @@
 <html>
 
 <head>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  <section class="w-full h-screen bg-cover bg-center"  id="hero-parallax" style="background-image: url('/your-image.jpg')">
+  <section class="w-full h-screen bg-cover bg-center relative"
+    style="background-image: url('https://sdmntprwestus2.oaiusercontent.com/files/00000000-94ec-61f8-9b25-3c99d900420f/raw?se=2025-06-04T06%3A44%3A06Z&sp=r&sv=2024-08-04&sr=b&scid=54145177-fb1a-5fb2-944c-dc7a821b5a1c&skoid=30ec2761-8f41-44db-b282-7a0f8809659b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-04T05%3A38%3A23Z&ske=2025-06-05T05%3A38%3A23Z&sks=b&skv=2024-08-04&sig=hYsJKjRN0PiX1rkYEpZ4HbC/ypKjatv/cb7mxkzzvQY%3D')">
     <div class="absolute inset-0 bg-black/60"></div> <!-- Optional overlay -->
     <div class="relative z-10 flex items-center justify-center h-full">
       <div class="text-center text-white px-4">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to Our Website</h1>
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Digital Solutions that Make Sense</h1>
         <p class="text-lg md:text-2xl mb-8">We're glad you're here.</p>
-        <a href="#services" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition">
+        <a href="#services"
+          class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition bg-lime-500">
           Learn More
         </a>
       </div>
+      <div id="hero-parallax" class="absolute bottom-0 right-0 left-0">
+        <div>testing</div>
+        <div>testing</div>
+      </div>
+      <div class="absolute p-4 top-0 right-0 left-0 md:right-10 md:[left:initial] md:top-10 bg-white md:rounded">
+        <div id="hamburger-menu" onclick="this.classList.toggle('active')">
+          <div class="menu-btn float-right md:float-none">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   </section>
-  <section>
-    testing
+  <section class="text-center">
+    <h1 class="sm:text-center">testing</h1>
+    <div class="lg:columns-3">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </div>
   </section>
 
 </body>
