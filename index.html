@@ -4,31 +4,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hello!</title>
 </head>
-
 <body>
   <section class="w-full h-screen bg-cover bg-center relative" style="background-image: url('static/hero-bg.png')">
     <div class="absolute inset-0 bg-black/60"></div> <!-- Optional overlay -->
     <div class="relative z-10 flex items-center justify-center h-full">
       <div class="text-center text-white px-4">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">Digital Solutions that Make Sense</h1>
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Digital Solutions That Make Sense</h1>
         <p class="text-lg md:text-2xl mb-8">We're glad you're here.</p>
         <a href="#services"
           class="inline-block bg-blue-600 hover:bg-white hover:text-black text-white font-semibold py-3 px-6 rounded-lg transition bg-lime-500">
           Learn More
         </a>
       </div>
-      <div class="absolute p-4 top-0 right-0 left-0 md:right-10 md:[left:initial] md:top-10 bg-white md:rounded">
-        <div id="hamburger-menu" onclick="this.classList.toggle('active')">
+      <div class="fixed z-[1001] p-4 right-2 md:[left:initial] top-2 md:top-10 md:right-10 bg-white rounded">
+        <div id="hamburger-menu">
           <div class="menu-btn float-right md:float-none">
             <span></span>
             <span></span>
             <span></span>
           </div>
         </div>
+        <div id="menu-items"></div>
       </div>
-    </div>
+      <div class="overlay" id="overlay"></div>
     </div>
   </section>
+  <section>hello!</section>
 </body>
 
 </html>
