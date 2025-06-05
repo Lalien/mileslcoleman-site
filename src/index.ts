@@ -7,3 +7,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
         document.getElementById("overlay")?.classList.toggle("active");
     });
 });
+
+console.log("hello!");
