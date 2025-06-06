@@ -2,7 +2,8 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello!</title>
+  <title>Miles Lamar Coleman - Web Development for Small Businesses</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
   <section class="w-full h-screen bg-cover bg-center relative" style="background-image: url('static/hero-bg.png')">
@@ -10,26 +11,73 @@
     <div class="relative z-10 flex items-center justify-center h-full">
       <div class="text-center text-white px-4">
         <h1 class="text-4xl md:text-6xl font-bold mb-4">Digital Solutions That Make Sense</h1>
-        <p class="text-lg md:text-2xl mb-8">We're glad you're here.</p>
+        <p class="text-lg md:text-2xl mb-8">I'm glad you're here.</p>
         <a href="#services"
           class="inline-block bg-blue-600 hover:bg-white hover:text-black text-white font-semibold py-3 px-6 rounded-lg transition bg-lime-500">
           Learn More
         </a>
       </div>
-      <div class="fixed z-[1001] p-4 right-2 md:[left:initial] top-2 md:top-10 md:right-10 bg-white rounded">
-        <div id="hamburger-menu">
-          <div class="menu-btn float-right md:float-none">
+      <div class="fixed z-[1001] pr-2 right-0 left-0 md:[left:initial] text-right top-2 md:top-10 md:right-10 rounded">
+        <div id="hamburger-menu" class="relative p-4 rounded bg-white max-w-[75px] inline-block">
+          <div class="menu-btn">
             <span></span>
             <span></span>
             <span></span>
           </div>
         </div>
-        <div id="menu-items"></div>
+        <nav id="menu-items"
+          class="bottom-[-50%] w-full text-center md:bg-white md:rounded mt-3 rounded text-white md:text-black text-4xl md:text-2xl font-bold mb-4">
+          <ul>
+            <li><a class="menu-item block mb-2 md:p-2 md:hover:text-white md:hover:bg-gray-500" href="#services">Services</a></li>
+            <li><a class="menu-item block md:p-2 md:hover:text-white md:hover:bg-gray-500" href="#technologies">Technologies</a></li>
+            <li><a class="menu-item block mb-2 md:p-2 md:hover:text-white md:hover:bg-gray-500" href="#about">About</a></li>
+          </ul>
+        </nav>
       </div>
-      <div class="overlay" id="overlay"></div>
+      <div class="overlay md:hidden" id="overlay"></div>
     </div>
   </section>
-  <section>hello!</section>
+  <div id="services" class="w-full bg-gray-100 py-8">
+    <div class="container mx-auto px-4">
+      <h4 class="text-2xl md:text-4xl font-bold mb-4 text-center">Services</h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded shadow">
+          <div class="text-center">
+            <i class="fa-solid fa-globe text-4xl"></i>
+            <h3 class="text-2xl">Web Design & Development</h3>
+          </div>
+          <p class="mt-2">
+            My bread and butter; building dynamic, database-driven websites and web applications to meet the needs of my
+            clients.
+          </p>
+          <p>
+            If you can dream it, I can build it. 
+          </p>
+          <P>
+            <a href="#technologies" class="underline">Check out my technologies of choice</a>
+          </P>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <div class="text-center">
+            <i class="fa-solid fa-chart-simple text-4xl"></i>
+            <h3 class="text-2xl">Digital Analytics</h3>
+          </div>
+          <p class="mt-2">
+            To ensure that every bit of your site is being utilized correctly,
+            I will add tracking to your site and generate comprehensive reports on the performance of your site with Google Analytics. 
+          </p>
+          <p class="mt-2">
+            With that information, I will make changes to it that will ensure that your site gets as many hits as possible and improve user experience.
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <div class="text-center">
+            <i class="fa-solid fa-globe text-4xl"></i>
+            <h3 class="text-2xl">Web Design & Development</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
-
 </html>

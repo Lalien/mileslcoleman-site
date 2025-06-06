@@ -1,11 +1,21 @@
 import './styles.css';
 const Parallax       = require('parallax-js')
 document.addEventListener("DOMContentLoaded", (event) => {
-    var hamburgerMenu = document.getElementById("hamburger-menu");
-    hamburgerMenu!.addEventListener('click', function() {
-        this!.classList.toggle("active");
+    
+    function toggleMenu() {
+        document.getElementById("hamburger-menu")?.classList.toggle("active");
         document.getElementById("overlay")?.classList.toggle("active");
+        document.getElementById("menu-items")?.classList.toggle("active");
+    }
+    
+    document.getElementById("hamburger-menu")!.addEventListener('click', function() {
+        toggleMenu();
+    });
+
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            toggleMenu();
+        });
     });
 });
-
-console.log("hello!");
