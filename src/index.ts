@@ -1,5 +1,4 @@
 import './styles.css';
-const Parallax       = require('parallax-js')
 document.addEventListener("DOMContentLoaded", (event) => {
     
     function toggleMenu() {
