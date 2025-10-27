@@ -17,4 +17,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
             toggleMenu();
         });
     });
+
+    const servicePlates = document.querySelectorAll('.service-plate');
+
+    servicePlates.forEach(servicePlate => {
+        let overlay = servicePlate.querySelector('.overlay')
+        servicePlate.addEventListener('mouseenter', () => {
+            overlay?.classList.toggle("show");
+        });
+
+        servicePlate.addEventListener('mouseleave', () => {
+            overlay?.classList.toggle("show");
+        });
+    });
+
 });

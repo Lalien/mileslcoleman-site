@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: './src/index.ts',
@@ -21,6 +22,9 @@ module.exports = {
                 to: path.resolve(__dirname, 'dist/static') // or just 'static' if relative to dist
                 }
             ]
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contentHash].css"
         })
     ],
     resolve: {
@@ -35,7 +39,7 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
             },
             {
                 test: /\.ts$/,
