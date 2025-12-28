@@ -33,9 +33,13 @@ function setCookie(name: string, value: string, days: number): void {
 // Google Analytics consent management
 function updateGAConsent(granted: boolean): void {
     if (typeof window.gtag === 'function') {
-        window.gtag('consent', 'update', {
-            'analytics_storage': granted ? 'granted' : 'denied'
-        });
+        try {
+            window.gtag('consent', 'update', {
+                'analytics_storage': granted ? 'granted' : 'denied'
+            });
+        } catch (error) {
+            console.error('Failed to update Google Analytics consent:', error);
+        }
     }
 }
 
