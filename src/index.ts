@@ -45,7 +45,6 @@ function updateGAConsent(granted: boolean): void {
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    
     // Initialize Parallax.js for trippy hero effect
     const parallaxScene = document.getElementById('parallax-scene');
     if (parallaxScene) {
