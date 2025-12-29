@@ -43,6 +43,37 @@ function updateGAConsent(granted: boolean): void {
     }
 }
 
+// Supported social media platforms
+const SOCIAL_PLATFORMS = ['facebook', 'twitter', 'linkedin', 'instagram'];
+
+// Google Analytics event tracking helper
+function trackEvent(eventName: string, eventCategory: string, eventLabel: string, eventValue?: number): void {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        try {
+            const eventParams: { [key: string]: any } = {
+                'event_category': eventCategory,
+                'event_label': eventLabel
+            };
+            if (eventValue !== undefined) {
+                eventParams['value'] = eventValue;
+            }
+            window.gtag('event', eventName, eventParams);
+        } catch (error) {
+            console.error('Failed to track event:', error);
+        }
+    }
+}
+
+// Helper to sanitize text for tracking labels
+function sanitizeTextForTracking(text: string): string {
+    return text.toLowerCase().replace(/\s+/g, '_');
+}
+
+// Helper to detect social media platform from URL
+function getSocialPlatform(url: string): string {
+    return SOCIAL_PLATFORMS.find(platform => url.includes(platform)) || 'unknown';
+}
+
 // Contact form modal functions
 function openContactModal(): void {
     const modal = document.getElementById('contact-form-modal');
@@ -205,6 +236,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
         item.addEventListener('click', (event) => {
+            const target = event.currentTarget as HTMLElement;
+            const linkText = target.textContent?.trim() || 'Unknown';
+            trackEvent('click', 'navigation', `menu_${sanitizeTextForTracking(linkText)}`);
             toggleMenu();
         });
     });
@@ -219,6 +253,58 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         servicePlate.addEventListener('mouseleave', () => {
             overlay?.classList.toggle("show");
+        });
+    });
+
+    // Track Hero CTA button
+    const heroCtaButton = document.querySelector('a[href="#services"]');
+    if (heroCtaButton && heroCtaButton.closest('section')?.querySelector('h1')) {
+        heroCtaButton.addEventListener('click', () => {
+            trackEvent('click', 'cta', 'hero_learn_more');
+        });
+    }
+
+    // Track Contact Section CTAs - without PII
+    const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+    phoneLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            trackEvent('click', 'contact', 'phone_clicked');
+        });
+    });
+
+    const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+    emailLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            trackEvent('click', 'contact', 'email_clicked');
+        });
+    });
+
+    // Track "View Our Services" button in contact section
+    const contactServiceButton = document.querySelector('#contact a[href="#services"]');
+    if (contactServiceButton) {
+        contactServiceButton.addEventListener('click', () => {
+            trackEvent('click', 'cta', 'contact_view_services');
+        });
+    }
+
+    // Track Footer Social Media Links
+    const socialSelector = SOCIAL_PLATFORMS.map(platform => `footer a[href*="${platform}"]`).join(', ');
+    const socialLinks = document.querySelectorAll(socialSelector);
+    socialLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const href = link.getAttribute('href') || '';
+            const platform = getSocialPlatform(href);
+            trackEvent('click', 'social', `footer_${platform}`);
+        });
+    });
+
+    // Track Footer Quick Links
+    const footerQuickLinks = document.querySelectorAll('footer a[href^="#"]');
+    footerQuickLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const href = link.getAttribute('href') || '';
+            const section = href.replace('#', '');
+            trackEvent('click', 'navigation', `footer_${section}`);
         });
     });
 
