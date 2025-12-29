@@ -31,25 +31,27 @@
 </head>
 <body>
   <section class="w-full h-screen bg-cover bg-center relative overflow-hidden" style="background-image: url('static/hero-bg.png')">
+    <!-- Dark overlay behind everything -->
+    <div class="absolute inset-0 bg-black/50 z-0"></div>
+    
     <!-- Parallax Scene Container -->
-    <div id="parallax-scene" class="absolute inset-0">
+    <div id="parallax-scene" class="absolute inset-0 z-10">
       <!-- Parallax Layers with varying depths -->
-      <div data-depth="0.1" class="parallax-layer absolute inset-0 bg-gradient-to-br from-purple-600/20 via-transparent to-blue-600/20"></div>
-      <div data-depth="0.2" class="parallax-layer absolute inset-0 flex items-center justify-center opacity-30">
+      <div data-depth="0.1" class="parallax-layer absolute inset-0 bg-gradient-to-br from-purple-600/40 via-transparent to-blue-600/40"></div>
+      <div data-depth="0.2" class="parallax-layer absolute inset-0 flex items-center justify-center opacity-60">
         <div class="trippy-circle circle-1"></div>
       </div>
-      <div data-depth="0.3" class="parallax-layer absolute inset-0 flex items-center justify-center opacity-25">
+      <div data-depth="0.3" class="parallax-layer absolute inset-0 flex items-center justify-center opacity-50">
         <div class="trippy-circle circle-2"></div>
       </div>
-      <div data-depth="0.15" class="parallax-layer absolute inset-0 flex items-center justify-center opacity-20">
+      <div data-depth="0.15" class="parallax-layer absolute inset-0 flex items-center justify-center opacity-45">
         <div class="trippy-circle circle-3"></div>
       </div>
-      <div data-depth="0.4" class="parallax-layer absolute inset-0 bg-gradient-to-tl from-lime-500/10 via-transparent to-pink-500/10"></div>
+      <div data-depth="0.4" class="parallax-layer absolute inset-0 bg-gradient-to-tl from-lime-500/30 via-transparent to-pink-500/30"></div>
     </div>
     
-    <div class="absolute inset-0 bg-black/60"></div> <!-- Optional overlay -->
-    <div class="relative z-10 flex items-center justify-center h-full">
-      <div class="text-center text-white px-4" data-depth="0.5">
+    <div class="relative z-20 flex items-center justify-center h-full">
+      <div class="text-center text-white px-4">
         <h1 class="text-4xl md:text-6xl font-bold mb-4">Digital Solutions That Make Sense</h1>
         <p class="text-lg md:text-2xl mb-8">We're glad you're here.</p>
         <a href="#services"
