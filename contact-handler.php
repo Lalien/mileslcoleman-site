@@ -62,7 +62,7 @@ $phone = !empty($data['phone']) ? htmlspecialchars(strip_tags(trim($data['phone'
 $message = htmlspecialchars(strip_tags(trim($data['message'])));
 
 // Email configuration
-$to = 'hello@milehighmiles.com'; // Change this to your email
+$to = 'miles.lcoleman@gmail.com'; // Change this to your email
 $subject = 'New Contact Form Submission from ' . $name;
 
 // Create email body
