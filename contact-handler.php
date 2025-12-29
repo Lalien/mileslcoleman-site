@@ -1,11 +1,18 @@
 <?php
-// Enable error reporting for debugging (remove in production)
+// Enable error reporting for debugging (IMPORTANT: Disable in production!)
+// For production: set error_reporting(0) and ini_set('display_errors', 0)
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
 // Set response headers
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+// TODO: In production, replace '*' with your actual domain (e.g., 'https://milehighmiles.com')
+// For local development, you may need to adjust this based on your setup
+$allowedOrigins = ['https://milehighmiles.com', 'http://localhost:8080', 'http://127.0.0.1:8080'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+}
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
