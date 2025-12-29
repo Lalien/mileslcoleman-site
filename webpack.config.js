@@ -24,6 +24,14 @@ module.exports = {
                 {
                 from: path.resolve(__dirname, 'contact-handler.php'),
                 to: path.resolve(__dirname, 'dist/contact-handler.php')
+                },
+                {
+                from: path.resolve(__dirname, 'robots.txt'),
+                to: path.resolve(__dirname, 'dist/robots.txt')
+                },
+                {
+                from: path.resolve(__dirname, 'sitemap.xml'),
+                to: path.resolve(__dirname, 'dist/sitemap.xml')
                 }
             ]
         }),

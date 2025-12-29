@@ -1,0 +1,11 @@
+# robots.txt for milehighmiles.com
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow backend files
+Disallow: /contact-handler.php
+
+# Sitemap location (update when sitemap is created)
+Sitemap: https://milehighmiles.com/sitemap.xml
