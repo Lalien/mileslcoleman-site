@@ -43,9 +43,12 @@ function updateGAConsent(granted: boolean): void {
     }
 }
 
+// Supported social media platforms
+const SOCIAL_PLATFORMS = ['facebook', 'twitter', 'linkedin', 'instagram'];
+
 // Google Analytics event tracking helper
 function trackEvent(eventName: string, eventCategory: string, eventLabel: string, eventValue?: number): void {
-    if (typeof window.gtag === 'function') {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         try {
             const eventParams: { [key: string]: any } = {
                 'event_category': eventCategory,
@@ -68,19 +71,7 @@ function sanitizeTextForTracking(text: string): string {
 
 // Helper to detect social media platform from URL
 function getSocialPlatform(url: string): string {
-    const platforms: { [key: string]: string } = {
-        'facebook': 'facebook',
-        'twitter': 'twitter',
-        'linkedin': 'linkedin',
-        'instagram': 'instagram'
-    };
-    
-    for (const [key, value] of Object.entries(platforms)) {
-        if (url.includes(key)) {
-            return value;
-        }
-    }
-    return 'unknown';
+    return SOCIAL_PLATFORMS.find(platform => url.includes(platform)) || 'unknown';
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -176,7 +167,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     // Track Footer Social Media Links
-    const socialLinks = document.querySelectorAll('footer a[href*="facebook"], footer a[href*="twitter"], footer a[href*="linkedin"], footer a[href*="instagram"]');
+    const socialSelector = SOCIAL_PLATFORMS.map(platform => `footer a[href*="${platform}"]`).join(', ');
+    const socialLinks = document.querySelectorAll(socialSelector);
     socialLinks.forEach((link) => {
         link.addEventListener('click', () => {
             const href = link.getAttribute('href') || '';
