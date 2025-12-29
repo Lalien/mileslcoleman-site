@@ -61,6 +61,28 @@ function trackEvent(eventName: string, eventCategory: string, eventLabel: string
     }
 }
 
+// Helper to sanitize text for tracking labels
+function sanitizeTextForTracking(text: string): string {
+    return text.toLowerCase().replace(/\s+/g, '_');
+}
+
+// Helper to detect social media platform from URL
+function getSocialPlatform(url: string): string {
+    const platforms: { [key: string]: string } = {
+        'facebook': 'facebook',
+        'twitter': 'twitter',
+        'linkedin': 'linkedin',
+        'instagram': 'instagram'
+    };
+    
+    for (const [key, value] of Object.entries(platforms)) {
+        if (url.includes(key)) {
+            return value;
+        }
+    }
+    return 'unknown';
+}
+
 document.addEventListener("DOMContentLoaded", (event) => {
     
     // Cookie consent modal logic
@@ -104,7 +126,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         item.addEventListener('click', (event) => {
             const target = event.currentTarget as HTMLElement;
             const linkText = target.textContent?.trim() || 'Unknown';
-            trackEvent('click', 'navigation', `menu_${linkText.toLowerCase().replace(/\s+/g, '_')}`);
+            trackEvent('click', 'navigation', `menu_${sanitizeTextForTracking(linkText)}`);
             toggleMenu();
         });
     });
@@ -130,20 +152,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
     }
 
-    // Track Contact Section CTAs
+    // Track Contact Section CTAs - without PII
     const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
     phoneLinks.forEach((link) => {
         link.addEventListener('click', () => {
-            const phoneNumber = (link as HTMLElement).textContent?.trim() || 'Unknown';
-            trackEvent('click', 'contact', `phone_${phoneNumber.replace(/\D/g, '')}`);
+            trackEvent('click', 'contact', 'phone_clicked');
         });
     });
 
     const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
     emailLinks.forEach((link) => {
         link.addEventListener('click', () => {
-            const email = link.getAttribute('href')?.replace('mailto:', '') || 'Unknown';
-            trackEvent('click', 'contact', `email_${email.replace(/[^a-zA-Z0-9]/g, '_')}`);
+            trackEvent('click', 'contact', 'email_clicked');
         });
     });
 
@@ -160,11 +180,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     socialLinks.forEach((link) => {
         link.addEventListener('click', () => {
             const href = link.getAttribute('href') || '';
-            let platform = 'unknown';
-            if (href.includes('facebook')) platform = 'facebook';
-            else if (href.includes('twitter')) platform = 'twitter';
-            else if (href.includes('linkedin')) platform = 'linkedin';
-            else if (href.includes('instagram')) platform = 'instagram';
+            const platform = getSocialPlatform(href);
             trackEvent('click', 'social', `footer_${platform}`);
         });
     });
