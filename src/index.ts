@@ -43,6 +43,24 @@ function updateGAConsent(granted: boolean): void {
     }
 }
 
+// Google Analytics event tracking helper
+function trackEvent(eventName: string, eventCategory: string, eventLabel: string, eventValue?: number): void {
+    if (typeof window.gtag === 'function') {
+        try {
+            const eventParams: { [key: string]: any } = {
+                'event_category': eventCategory,
+                'event_label': eventLabel
+            };
+            if (eventValue !== undefined) {
+                eventParams['value'] = eventValue;
+            }
+            window.gtag('event', eventName, eventParams);
+        } catch (error) {
+            console.error('Failed to track event:', error);
+        }
+    }
+}
+
 document.addEventListener("DOMContentLoaded", (event) => {
     
     // Cookie consent modal logic
@@ -84,6 +102,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
         item.addEventListener('click', (event) => {
+            const target = event.currentTarget as HTMLElement;
+            const linkText = target.textContent?.trim() || 'Unknown';
+            trackEvent('click', 'navigation', `menu_${linkText.toLowerCase().replace(/\s+/g, '_')}`);
             toggleMenu();
         });
     });
@@ -98,6 +119,63 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         servicePlate.addEventListener('mouseleave', () => {
             overlay?.classList.toggle("show");
+        });
+    });
+
+    // Track Hero CTA button
+    const heroCtaButton = document.querySelector('a[href="#services"]');
+    if (heroCtaButton && heroCtaButton.closest('section')?.querySelector('h1')) {
+        heroCtaButton.addEventListener('click', () => {
+            trackEvent('click', 'cta', 'hero_learn_more');
+        });
+    }
+
+    // Track Contact Section CTAs
+    const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+    phoneLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const phoneNumber = (link as HTMLElement).textContent?.trim() || 'Unknown';
+            trackEvent('click', 'contact', `phone_${phoneNumber.replace(/\D/g, '')}`);
+        });
+    });
+
+    const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+    emailLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const email = link.getAttribute('href')?.replace('mailto:', '') || 'Unknown';
+            trackEvent('click', 'contact', `email_${email.replace(/[^a-zA-Z0-9]/g, '_')}`);
+        });
+    });
+
+    // Track "View Our Services" button in contact section
+    const contactServiceButton = document.querySelector('#contact a[href="#services"]');
+    if (contactServiceButton) {
+        contactServiceButton.addEventListener('click', () => {
+            trackEvent('click', 'cta', 'contact_view_services');
+        });
+    }
+
+    // Track Footer Social Media Links
+    const socialLinks = document.querySelectorAll('footer a[href*="facebook"], footer a[href*="twitter"], footer a[href*="linkedin"], footer a[href*="instagram"]');
+    socialLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const href = link.getAttribute('href') || '';
+            let platform = 'unknown';
+            if (href.includes('facebook')) platform = 'facebook';
+            else if (href.includes('twitter')) platform = 'twitter';
+            else if (href.includes('linkedin')) platform = 'linkedin';
+            else if (href.includes('instagram')) platform = 'instagram';
+            trackEvent('click', 'social', `footer_${platform}`);
+        });
+    });
+
+    // Track Footer Quick Links
+    const footerQuickLinks = document.querySelectorAll('footer a[href^="#"]');
+    footerQuickLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const href = link.getAttribute('href') || '';
+            const section = href.replace('#', '');
+            trackEvent('click', 'navigation', `footer_${section}`);
         });
     });
 
