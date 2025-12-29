@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <!-- Mask to create a transparent halo around the M -->
+    <mask id="mHalo">
+      <rect width="200" height="200" fill="white"/>
+      <!-- Keep M interior opaque (white) but make border transparent via black stroke -->
+      <text x="100" y="110" font-family="Arial, sans-serif" font-size="100" font-weight="normal" fill="white" stroke="black" stroke-width="9" text-anchor="middle">M</text>
+    </mask>
+  </defs>
+
+  <!-- Mountain (all white), punched with transparent halo around M -->
+  <path d="M0 200 L62.5 75 L100 125 L137.5 75 L200 200 Z" fill="#ffffff" mask="url(#mHalo)"/>
+
+  <!-- White M sitting on the mountain -->
+  <text x="100" y="110" font-family="Arial, sans-serif" font-size="100" font-weight="normal" fill="#ffffff" text-anchor="middle">M</text>
+</svg>
