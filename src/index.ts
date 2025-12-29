@@ -1,4 +1,6 @@
 import './styles.css';
+import Parallax from 'parallax-js';
+
 // Extend window interface to include gtag
 declare global {
     interface Window {
@@ -43,6 +45,31 @@ function updateGAConsent(granted: boolean): void {
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    
+    // Initialize Parallax.js for trippy hero effect
+    const parallaxScene = document.getElementById('parallax-scene');
+    if (parallaxScene) {
+        const parallaxInstance = new Parallax(parallaxScene, {
+            relativeInput: true,
+            clipRelativeInput: false,
+            hoverOnly: false,
+            inputElement: null,
+            calibrateX: true,
+            calibrateY: true,
+            invertX: false,
+            invertY: false,
+            limitX: 30,
+            limitY: 30,
+            scalarX: 10,
+            scalarY: 10,
+            frictionX: 0.1,
+            frictionY: 0.1,
+            originX: 0.5,
+            originY: 0.5,
+            pointerEvents: true,
+            precision: 1,
+        });
+    }
     
     // Cookie consent modal logic
     const cookieConsent = getCookie('cookieConsent');
