@@ -1,5 +1,4 @@
 import './styles.css';
-
 // Extend window interface to include gtag
 declare global {
     interface Window {
