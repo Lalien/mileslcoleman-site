@@ -74,6 +74,113 @@ function getSocialPlatform(url: string): string {
     return SOCIAL_PLATFORMS.find(platform => url.includes(platform)) || 'unknown';
 }
 
+// Contact form modal functions
+function openContactModal(): void {
+    const modal = document.getElementById('contact-form-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function closeContactModal(): void {
+    const modal = document.getElementById('contact-form-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling
+        
+        // Reset form
+        const form = document.getElementById('contact-form') as HTMLFormElement;
+        if (form) {
+            form.reset();
+        }
+        
+        // Hide any messages
+        const messageDiv = document.getElementById('form-message');
+        if (messageDiv) {
+            messageDiv.classList.add('hidden');
+        }
+    }
+}
+
+function showFormMessage(message: string, isError: boolean = false): void {
+    const messageDiv = document.getElementById('form-message');
+    if (messageDiv) {
+        messageDiv.textContent = message;
+        messageDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+        
+        if (isError) {
+            messageDiv.classList.add('bg-red-100', 'text-red-800');
+        } else {
+            messageDiv.classList.add('bg-green-100', 'text-green-800');
+        }
+    }
+}
+
+function setSubmitButtonLoading(isLoading: boolean): void {
+    const submitButton = document.getElementById('submit-contact-form') as HTMLButtonElement;
+    const submitText = document.getElementById('submit-text');
+    const submitSpinner = document.getElementById('submit-spinner');
+    
+    if (submitButton && submitText && submitSpinner) {
+        submitButton.disabled = isLoading;
+        
+        if (isLoading) {
+            submitText.classList.add('hidden');
+            submitSpinner.classList.remove('hidden');
+        } else {
+            submitText.classList.remove('hidden');
+            submitSpinner.classList.add('hidden');
+        }
+    }
+}
+
+async function handleContactFormSubmit(event: Event): Promise<void> {
+    event.preventDefault();
+    
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    // Convert FormData to JSON
+    const data: { [key: string]: string } = {};
+    formData.forEach((value, key) => {
+        data[key] = value.toString();
+    });
+    
+    // Show loading state
+    setSubmitButtonLoading(true);
+    showFormMessage('Sending your message...', false);
+    
+    try {
+        const response = await fetch('/contact-handler.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showFormMessage(result.message, false);
+            form.reset();
+            
+            // Close modal after 2 seconds
+            setTimeout(() => {
+                closeContactModal();
+            }, 2000);
+        } else {
+            showFormMessage(result.message || 'An error occurred. Please try again.', true);
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        showFormMessage('Failed to send message. Please try again or contact us directly.', true);
+    } finally {
+        setSubmitButtonLoading(false);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", (event) => {
     
     // Cookie consent modal logic
@@ -101,6 +208,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
         updateGAConsent(false);
         modal?.classList.add('hidden');
     });
+    
+    // Contact form modal handlers
+    document.getElementById('open-contact-modal')?.addEventListener('click', openContactModal);
+    document.getElementById('close-contact-modal')?.addEventListener('click', closeContactModal);
+    
+    // Close modal when clicking outside of it
+    document.getElementById('contact-form-modal')?.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            closeContactModal();
+        }
+    });
+    
+    // Handle contact form submission
+    document.getElementById('contact-form')?.addEventListener('submit', handleContactFormSubmit);
     
     function toggleMenu() {
         document.getElementById("hamburger-menu")?.classList.toggle("active");

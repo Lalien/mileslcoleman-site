@@ -383,13 +383,17 @@
         Let's discuss how our digital marketing services can help you generate more leads, increase organic traffic, and achieve your business goals. Get a free consultation today!
       </p>
       <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
-        <a href="tel:+17209999999" class="inline-flex items-center bg-white text-lime-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition">
+        <button id="open-contact-modal" class="inline-flex items-center bg-white text-lime-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition">
+          <i class="fa-solid fa-paper-plane mr-2"></i>
+          Contact Us
+        </button>
+        <a href="tel:+7207557408" class="inline-flex items-center bg-white text-lime-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition">
           <i class="fa-solid fa-phone mr-2"></i>
-          (720) 999-9999
+          (720) 755-7408
         </a>
         <a href="mailto:hello@milehighmiles.com" class="inline-flex items-center bg-white text-lime-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition">
           <i class="fa-solid fa-envelope mr-2"></i>
-          hello@milehighmiles.com
+          miles.lcoleman@gmail.com
         </a>
       </div>
       <a href="#services" class="inline-block bg-white text-lime-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition">
@@ -458,7 +462,7 @@
             </li>
             <li class="flex items-center">
               <i class="fa-solid fa-phone mr-2"></i>
-              <a href="tel:+17209999999" class="hover:text-lime-500 transition">(720) 999-9999</a>
+              <a href="tel:+17207557408" class="hover:text-lime-500 transition">(720) 755-7408</a>
             </li>
             <li class="flex items-center">
               <i class="fa-solid fa-envelope mr-2"></i>
@@ -473,7 +477,61 @@
       </div>
     </div>
   </footer>
-  
+  <!-- Contact Form Modal -->
+  <div id="contact-form-modal" class="hidden fixed inset-0 bg-black/50 z-[2000] flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto animate-slide-up">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-900">Get In Touch</h2>
+          <button id="close-contact-modal" class="text-gray-400 hover:text-gray-600 transition">
+            <i class="fa-solid fa-times text-2xl"></i>
+          </button>
+        </div>
+        <p class="text-gray-600 mb-6">Fill out the form below and we'll get back to you as soon as possible.</p>
+        
+        <form id="contact-form" class="space-y-4">
+          <div>
+            <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+            <input type="text" id="contact-name" name="name" required 
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent transition"
+              placeholder="Your name">
+          </div>
+          
+          <div>
+            <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+            <input type="email" id="contact-email" name="email" required 
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent transition"
+              placeholder="your@email.com">
+          </div>
+          
+          <div>
+            <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
+            <input type="tel" id="contact-phone" name="phone" 
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent transition"
+              placeholder="(123) 456-7890">
+          </div>
+          
+          <div>
+            <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+            <textarea id="contact-message" name="message" required rows="4"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent transition resize-none"
+              placeholder="Tell us about your project..."></textarea>
+          </div>
+          
+          <div id="form-message" class="hidden rounded-lg p-3 text-sm"></div>
+          
+          <button type="submit" id="submit-contact-form"
+            class="w-full bg-lime-500 hover:bg-lime-600 text-white font-semibold py-3 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+            <span id="submit-text">Send Message</span>
+            <span id="submit-spinner" class="hidden">
+              <i class="fa-solid fa-spinner fa-spin"></i> Sending...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Cookie Consent Modal -->
   <div id="cookie-consent-modal" class="hidden fixed inset-0 bg-black/50 z-[2000] flex items-end md:items-center justify-center">
     <div class="bg-white p-6 rounded-t-lg md:rounded-lg shadow-lg max-w-md w-full md:mx-4 animate-slide-up">
