@@ -20,6 +20,10 @@ module.exports = {
                 {
                 from: path.resolve(__dirname, 'static'),
                 to: path.resolve(__dirname, 'dist/static') // or just 'static' if relative to dist
+                },
+                {
+                from: path.resolve(__dirname, 'contact-handler.php'),
+                to: path.resolve(__dirname, 'dist/contact-handler.php')
                 }
             ]
         }),
