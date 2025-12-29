@@ -1,5 +1,13 @@
 import './styles.css';
 
+// Extend window interface to include gtag
+declare global {
+    interface Window {
+        gtag?: (...args: any[]) => void;
+        dataLayer?: any[];
+    }
+}
+
 // Cookie utility functions
 function getCookie(name: string): string | null {
     const nameEQ = encodeURIComponent(name) + "=";
@@ -22,6 +30,19 @@ function setCookie(name: string, value: string, days: number): void {
     document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value || "") + expires + "; path=/";
 }
 
+// Google Analytics consent management
+function updateGAConsent(granted: boolean): void {
+    if (typeof window.gtag === 'function') {
+        try {
+            window.gtag('consent', 'update', {
+                'analytics_storage': granted ? 'granted' : 'denied'
+            });
+        } catch (error) {
+            console.error('Failed to update Google Analytics consent:', error);
+        }
+    }
+}
+
 document.addEventListener("DOMContentLoaded", (event) => {
     
     // Cookie consent modal logic
@@ -31,17 +52,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if (!cookieConsent && modal) {
         // Show modal if consent hasn't been given
         modal.classList.remove('hidden');
+    } else if (cookieConsent === 'accepted') {
+        // User previously accepted - grant analytics consent
+        updateGAConsent(true);
     }
     
     // Accept button handler
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
         setCookie('cookieConsent', 'accepted', 365);
+        updateGAConsent(true);
         modal?.classList.add('hidden');
     });
     
     // Decline button handler
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
         setCookie('cookieConsent', 'declined', 365);
+        updateGAConsent(false);
         modal?.classList.add('hidden');
     });
     
