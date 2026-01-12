@@ -16,6 +16,20 @@ if (in_array($origin, $allowedOrigins)) {
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
+// Initialize SQLite database connection
+$dbPath = __DIR__ . '/leads.db';
+$db = null;
+$dbError = null;
+
+try {
+    $db = new PDO('sqlite:' . $dbPath);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    // Log the error but don't stop execution - we'll still try to send the email
+    $dbError = $e->getMessage();
+    error_log('Database connection error: ' . $dbError);
+}
+
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -61,7 +75,46 @@ $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
 $phone = !empty($data['phone']) ? htmlspecialchars(strip_tags(trim($data['phone']))) : '';
 $message = htmlspecialchars(strip_tags(trim($data['message'])));
 
+// Get additional tracking information
+$user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+// Get real IP address (works behind proxies/load balancers)
+$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+// If X-Forwarded-For contains multiple IPs, take the first one (client IP)
+if (strpos($ip_address, ',') !== false) {
+    $ip_address = trim(explode(',', $ip_address)[0]);
+}
+
+// Save to database first (before sending email)
+$dbSaved = false;
+if ($db !== null) {
+    try {
+        $stmt = $db->prepare("
+            INSERT INTO leads (name, email, phone, message, user_agent, ip_address)
+            VALUES (:name, :email, :phone, :message, :user_agent, :ip_address)
+        ");
+        
+        $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':message' => $message,
+            ':user_agent' => $user_agent,
+            ':ip_address' => $ip_address
+        ]);
+        
+        $dbSaved = true;
+    } catch (PDOException $e) {
+        // Log the error but continue to send email
+        error_log('Database insert error: ' . $e->getMessage());
+        $dbError = $e->getMessage();
+    }
+} else {
+    error_log('Database not available, skipping save');
+}
+
 // Email configuration
+// TODO: In production, consider using environment variables for sensitive data
+// Example: $to = getenv('CONTACT_EMAIL') ?: 'miles.lcoleman@gmail.com';
 $to = 'miles.lcoleman@gmail.com'; // Change this to your email
 $subject = 'New Contact Form Submission from ' . $name;
 
