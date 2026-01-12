@@ -77,7 +77,12 @@ $message = htmlspecialchars(strip_tags(trim($data['message'])));
 
 // Get additional tracking information
 $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-$ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+// Get real IP address (works behind proxies/load balancers)
+$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+// If X-Forwarded-For contains multiple IPs, take the first one (client IP)
+if (strpos($ip_address, ',') !== false) {
+    $ip_address = trim(explode(',', $ip_address)[0]);
+}
 
 // Save to database first (before sending email)
 $dbSaved = false;

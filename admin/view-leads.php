@@ -26,7 +26,8 @@ if (isset($_POST['password'])) {
 // Handle logout
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: view-leads.php');
+    // Use absolute path for redirect to prevent potential issues
+    header('Location: ' . $_SERVER['SCRIPT_NAME']);
     exit();
 }
 
