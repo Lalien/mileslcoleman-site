@@ -9,6 +9,9 @@
 // Simple authentication - change this password!
 session_start();
 
+// ⚠️ SECURITY WARNING: Change this password immediately!
+// For production, consider using environment variables or a more secure authentication method
+// Example: $ADMIN_PASSWORD = getenv('ADMIN_PASSWORD') ?: 'changeme123';
 $ADMIN_PASSWORD = 'changeme123'; // TODO: Change this password!
 
 // Handle login

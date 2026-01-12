@@ -9,6 +9,5 @@
 
 # Protect database file from direct access
 <FilesMatch "leads\.db">
-  Order allow,deny
-  Deny from all
+  Require all denied
 </FilesMatch>
