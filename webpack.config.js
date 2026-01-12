@@ -26,6 +26,14 @@ module.exports = {
                 to: path.resolve(__dirname, 'dist/contact-handler.php')
                 },
                 {
+                from: path.resolve(__dirname, 'init-database.php'),
+                to: path.resolve(__dirname, 'dist/init-database.php')
+                },
+                {
+                from: path.resolve(__dirname, 'admin'),
+                to: path.resolve(__dirname, 'dist/admin')
+                },
+                {
                 from: path.resolve(__dirname, 'robots.txt'),
                 to: path.resolve(__dirname, 'dist/robots.txt')
                 },
