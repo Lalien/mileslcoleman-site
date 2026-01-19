@@ -25,7 +25,7 @@ try {
     $db = new PDO('sqlite:' . $dbPath);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    // Log the error and continue - will handle in the main logic below
+    // Log the error - script will return error response if $db is null
     $dbError = $e->getMessage();
     error_log('Database connection error: ' . $dbError);
 }
