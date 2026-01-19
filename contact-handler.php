@@ -129,5 +129,6 @@ if ($db !== null) {
         'success' => false,
         'message' => 'Sorry, there was an error processing your message. Please try again later or contact us directly.'
     ]);
+    exit();
 }
 ?>
