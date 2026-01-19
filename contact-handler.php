@@ -25,7 +25,7 @@ try {
     $db = new PDO('sqlite:' . $dbPath);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    // Log the error but don't stop execution - we'll still try to send the email
+    // Log the error
     $dbError = $e->getMessage();
     error_log('Database connection error: ' . $dbError);
 }
@@ -84,7 +84,7 @@ if (strpos($ip_address, ',') !== false) {
     $ip_address = trim(explode(',', $ip_address)[0]);
 }
 
-// Save to database first (before sending email)
+// Save to database
 $dbSaved = false;
 if ($db !== null) {
     try {
@@ -103,49 +103,29 @@ if ($db !== null) {
         ]);
         
         $dbSaved = true;
+        
+        http_response_code(200);
+        echo json_encode([
+            'success' => true,
+            'message' => 'Thank you for your message! We will get back to you soon.'
+        ]);
     } catch (PDOException $e) {
-        // Log the error but continue to send email
+        // Log the error
         error_log('Database insert error: ' . $e->getMessage());
         $dbError = $e->getMessage();
+        
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Sorry, there was an error saving your message. Please try again later or contact us directly.'
+        ]);
     }
 } else {
-    error_log('Database not available, skipping save');
-}
-
-// Email configuration
-// TODO: In production, consider using environment variables for sensitive data
-// Example: $to = getenv('CONTACT_EMAIL') ?: 'miles.lcoleman@gmail.com';
-$to = 'miles.lcoleman@gmail.com'; // Change this to your email
-$subject = 'New Contact Form Submission from ' . $name;
-
-// Create email body
-$email_body = "You have received a new message from your website contact form.\n\n";
-$email_body .= "Name: " . $name . "\n";
-$email_body .= "Email: " . $email . "\n";
-if (!empty($phone)) {
-    $email_body .= "Phone: " . $phone . "\n";
-}
-$email_body .= "\nMessage:\n" . $message . "\n";
-
-// Email headers
-$headers = "From: noreply@milehighmiles.com\r\n";
-$headers .= "Reply-To: " . $email . "\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion();
-
-// Send email
-$mail_sent = mail($to, $subject, $email_body, $headers);
-
-if ($mail_sent) {
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Thank you for your message! We will get back to you soon.'
-    ]);
-} else {
+    error_log('Database not available');
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Sorry, there was an error sending your message. Please try again later or contact us directly.'
+        'message' => 'Sorry, there was an error processing your message. Please try again later or contact us directly.'
     ]);
 }
 ?>
