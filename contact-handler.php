@@ -114,8 +114,8 @@ if ($db !== null) {
 
 // Email configuration
 // TODO: In production, consider using environment variables for sensitive data
-// Example: $to = getenv('CONTACT_EMAIL') ?: 'miles.lcoleman@gmail.com';
-$to = 'miles.lcoleman@gmail.com'; // Change this to your email
+// Example: $to = getenv('CONTACT_EMAIL') ?: 'hello@milehighmiles.com';
+$to = 'hello@milehighmiles.com'; // Change this to your email
 $subject = 'New Contact Form Submission from ' . $name;
 
 // Create email body
