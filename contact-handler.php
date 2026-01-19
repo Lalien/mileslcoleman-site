@@ -25,7 +25,7 @@ try {
     $db = new PDO('sqlite:' . $dbPath);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    // Log the error
+    // Log the error and continue - will handle in the main logic below
     $dbError = $e->getMessage();
     error_log('Database connection error: ' . $dbError);
 }
@@ -119,7 +119,7 @@ if ($db !== null) {
         exit();
     }
 } else {
-    error_log('Database not available');
+    error_log('Database not available - connection failed during initialization');
     http_response_code(500);
     echo json_encode([
         'success' => false,
