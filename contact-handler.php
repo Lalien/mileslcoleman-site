@@ -85,7 +85,6 @@ if (strpos($ip_address, ',') !== false) {
 }
 
 // Save to database
-$dbSaved = false;
 if ($db !== null) {
     try {
         $stmt = $db->prepare("
@@ -102,8 +101,6 @@ if ($db !== null) {
             ':ip_address' => $ip_address
         ]);
         
-        $dbSaved = true;
-        
         http_response_code(200);
         echo json_encode([
             'success' => true,
@@ -113,7 +110,6 @@ if ($db !== null) {
     } catch (PDOException $e) {
         // Log the error
         error_log('Database insert error: ' . $e->getMessage());
-        $dbError = $e->getMessage();
         
         http_response_code(500);
         echo json_encode([
