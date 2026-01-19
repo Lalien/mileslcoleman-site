@@ -109,6 +109,7 @@ if ($db !== null) {
             'success' => true,
             'message' => 'Thank you for your message! We will get back to you soon.'
         ]);
+        exit();
     } catch (PDOException $e) {
         // Log the error
         error_log('Database insert error: ' . $e->getMessage());
@@ -119,6 +120,7 @@ if ($db !== null) {
             'success' => false,
             'message' => 'Sorry, there was an error saving your message. Please try again later or contact us directly.'
         ]);
+        exit();
     }
 } else {
     error_log('Database not available');
